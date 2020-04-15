@@ -10,32 +10,45 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    var red: CGFloat = 0
+    var green: CGFloat = 0
+    var blue: CGFloat = 0
+    
     func updateColor() {
-        var red: CGFloat = 0
-        var green: CGFloat = 0
-        var blue: CGFloat = 0
         if redSwitch.isOn {
-            red = 1
+            red = CGFloat(redSlider.value)
         }
         if greenSwitch.isOn {
-            green = 1
+            green = CGFloat(greenSlider.value)
         }
         if blueSwitch.isOn {
-            blue = 1
+            blue = CGFloat(blueSlider.value)
         }
         
-        let color = UIColor(red: red, green: green, blue: blue, alpha: 1)
+        var color = UIColor(red: red, green: green, blue: blue, alpha: 1)
         colorView.backgroundColor = color
     }
     
+    func updateControls() {
+        redSlider.isEnabled = redSwitch.isOn
+        blueSlider.isEnabled = blueSwitch.isOn
+        greenSlider.isEnabled = greenSwitch.isOn
+    }
     
+    
+    @IBAction func reset(_ sender: Any) {
+redSlider.value = 1
+    greenSlider.value = 1
+        blueSlider.value = 1
+    }
     
     @IBOutlet weak var colorView: UIView!
     
     @IBAction func switchChanged(_ sender: UISwitch) {
+        updateControls()
         
         if sender.isOn {
-            colorView.backgroundColor = .red
+            updateColor()
         } else {
             colorView.backgroundColor = .black
         }
@@ -49,9 +62,19 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var blueSwitch: UISwitch!
     
+    @IBOutlet weak var redSlider: UISlider!
+    
+    @IBOutlet weak var greenSlider: UISlider!
+    
+    @IBOutlet weak var blueSlider: UISlider!
+    
+    @IBAction func sliderChanged(_ sender: Any) {
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        colorView.layer.borderWidth = 5
+        colorView.layer.borderColor = UIColor.black.cgColor
         
         updateColor()
 
